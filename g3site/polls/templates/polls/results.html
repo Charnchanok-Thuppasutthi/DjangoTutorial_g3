@@ -7,7 +7,7 @@
       <body>
         <h1>{{ question.question_text }}</h1>
         <ul>
-            {% for choice in question.choice_set.all %}
+            {% for choice in choice_all %}
           <br>
             <li>{{ choice.choice_text }} -- {{ choice.votes }} vote</li>
               {% for vote in choice.vote_set.all %}
@@ -15,7 +15,13 @@
               {% endfor %}
             {% endfor %}
         </ul>
-
+        <form action="{% url 'polls:sortV' question.id %}" method="GET"> 
+          <input value="Sort By MaxVote" type="submit" name="inputVoteMax">
+          <input value="Sort By LastVote" type="submit" name="inputDateLast">
+          <br>
+          <input value="Sort By MinVote" type="submit" name="inputVoteMin">
+          <input value="Sort By FirstDate" type="submit" name="inputDateFirst">
+      </form>
         <a href="{% url 'polls:detail' question.id %}">Vote again?</a>
       </body>
 </html>          
