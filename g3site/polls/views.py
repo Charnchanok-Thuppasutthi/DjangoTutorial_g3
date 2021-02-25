@@ -5,53 +5,18 @@ from django.views import generic
 from .models import Choice, Question
 from django.utils import timezone
 
+#admin
+#pass 12
 class IndexView(generic.ListView):#เมื่อมีการ request path polls/ จะทำการเรียกหน้า index.html
     template_name = 'polls/index.html'
     context_object_name = 'sorted_question_list'
-
-    def get_Vote(self,index):#นับจำนวน vote ของ question ตัวนั้น
-        q = Question.objects.get(pk=index+1)
-        choice_all = q.choice_set.all()
-        sumVote=0
-        for j in range( choice_all.count() ):
-            sumVote += choice_all[j].votes
-        return sumVote
-
-    def get_ListVote(self):
-        sumList = []
-        for i in range(Question.objects.count()): 
-            sumList.append(self.get_Vote(i)) 
-        return sumList
-        
-    def sort_Qusetion(self):
-        Sorted_Question = []
-        sumList = self.get_ListVote()
-        temp = list(sumList)
-        temp.sort(reverse=True)
-        for i in range(len(temp)): #ตรวจสอบเทียบหาตัวเท่ากันและใส่indexเก่ามาเรียงใหม่
-            for j in range(len(temp)):
-                if temp[i] == sumList[j]:
-                    print(sumList[j])
-                    Sorted_Question.append(Question.objects.get(pk=j+1))
-                    print(Sorted_Question)
-                    break
-        return Sorted_Question
             
     def get_queryset(self):
-        try:
-            QuestionList = self.sort_Qusetion()
-        except:Question.objects.count()==0
-            
-        """
-        Return the last five published questions (not including those set to be
-        published in the future).
-        """
-        return QuestionList
-        #return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
+        return Question.objects.all().order_by('-allVote')
 
 def menu(request):
     return render(request, 'polls/homepage.html')
-    
+
 class DetailView(generic.DetailView):#เมื่อมีการ request จากการกด Question จากหน้า index.html จะทำการเปิด detail.html
     model = Question
     template_name = 'polls/detail.html'
