@@ -6,14 +6,22 @@
       </head>
       <body>
         <h1>Vocabulary Menu</h1>
-                <h2>list word</h2>
-                <ul>
-                {% for word in word_list %}
+          <h2>list word</h2>
+            <form action="{% url 'vocab:searchWord' %}" method="post">
+              {% csrf_token %}  
+              <label>Search:</label> 
+              <input type="text" name="searchBar_text">
+              <br>
+              <input value="Search"type="submit" name="searching">
+            </form>
+              <ul>
+                {% for word in wordList %}
                     <br>
                     <li><a href="{% url 'vocab:detail' word.id %}">{{ word.word_text }}</a></li>
                 {% endfor %}
-            </ul>
-        <h2> <a href="{% url 'vocab:addWord' %}">Add more Word</a></h2>
+              </ul>
+          <a href="{% url 'vocab:index' %}"><input type=button value="Refreshing" ></a>
+          <h2> <a href="{% url 'vocab:addWord' %}">Add more Word</a></h2>
       </body>
 </html>          
 
