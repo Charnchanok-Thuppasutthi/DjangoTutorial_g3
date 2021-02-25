@@ -6,7 +6,8 @@
       </head>
       <body>
         <h1>Add Word</h1>
-        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        {% if error_message1 %}<p><strong>{{ error_message1 }}</strong></p>{% endif %}
+        {% if error_message2 %}<p><strong>{{ error_message2 }}</strong></p>{% endif %}
         <form action="{% url 'vocab:submit' %}" method="post">
             {% csrf_token %}  
             <label>Word:</label> 
@@ -26,7 +27,7 @@
               <br>
             <input value="Submit"type="submit">
         </form>
-        <input type=button value="Previous Page" onClick="javascript:history.go(-1);">
+        <a href="{% url 'vocab:index' %}"><input type=button value="Menu" ></a>
       </body>
 </html>          
 
