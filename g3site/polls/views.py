@@ -43,12 +43,10 @@ def vote(request, question_id):
         })
     else:
         selected_choice.vote_set.create(vote_date=timezone.now())
-        '''
-            add new one voted time to vote table
-        '''
+        question.allVote +=1
+        question.lastVote = timezone.now()
+        question.save()
         selected_choice.votes += 1  #increase number of that vote
+        selected_choice.lastVote = timezone.now()
         selected_choice.save()  #save modified attribute 
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+        return render(request , 'polls/results.html', {'question': question ,'choice_all': question.choice_set.all()} )
