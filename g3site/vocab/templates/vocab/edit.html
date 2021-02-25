@@ -5,13 +5,15 @@
         <title>My Mean page</title>
       </head>
       <body>
-
-        <h1>{{word.word_text}}  </h1>
+        <form action="{% url 'vocab:submit' %}" method="post">
+          <input type="text" name="word" value ={{word.word_text}} ><br>
+          <h3>ความหมาย</h3>
 
         {% for mean in word.mean_set.all %}
-          <h3>ความหมาย</h3>
-          <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ mean }} ({{mean.type_text}})<p> 
+          &nbsp&nbsp&nbsp<input type="text" name="word" value ={{mean}} ><a href="{% url 'vocab:delMean' mean.word %}">ลบ</a> <br> 
         {% endfor %}
+      </form>
+
       </body>
       <a href="{% url 'vocab:index' %}"><input type=button value="Back" ></a>
 </html>          

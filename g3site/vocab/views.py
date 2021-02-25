@@ -83,7 +83,13 @@ def delete_Meaning(del_mean):
         mean = Word.object.filter(word_text=del_mean)         
         mean.delete()
 
-def editPage(request , word_id):
-    word = get_object_or_404(Word,word_text=word_id)
-
+def editPage(request, word_id):
+    word = get_object_or_404(Word,pk=word_id)
+    print(word)
     return render(request, 'vocab/edit.html' , {'word': word ,'mean': word.mean_set.all()})
+
+def delMean(request, mean_word):
+    print("sdasdsa")
+    mean = Word.mean_set.all().filter(mean_text=mean_word)
+    print(mean)
+    
