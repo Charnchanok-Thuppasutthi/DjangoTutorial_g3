@@ -31,13 +31,22 @@ def submit(request):#เมื่อมีการกดคำเพิ่ม�
     if ( (word =="")or( mean  == "") ):
         return render(request, 'vocab/addWord.html', {
             'error_message2': "ข้อมูลไม่ครบ.",})
-    elif (checkWord):
-        newWord = Word.objects.filter(word_text=word)[0]
-        newWord.mean_set.create( mean_text = mean , type_text = text)
-        newWord.save()
 
-        return render(request, 'vocab/addWord.html', {
-             'error_message1': "มีคำศัพท์นี้แล้ว และได้เพิ่มความหมายไปแล้ว ",})
+    elif (checkWord):
+        word = Word.objects.filter(word_text=word)[0]
+        checkMeaning = word.mean_set.all().filter(mean_text=mean).exists()
+
+        if (checkMeaning):
+            return render(request, 'vocab/addWord.html', {
+                'error_message1': "มีความหมายนี้แล้ว จะไม่ทำการเพิ่มใหม่ ",})   
+        else:
+            newWord = Word.objects.filter(word_text=word)[0]
+            newWord.mean_set.create( mean_text = mean , type_text = text)
+            newWord.save()
+
+            return render(request, 'vocab/addWord.html', {
+                'error_message1': "มีคำศัพท์นี้แล้ว และได้เพิ่มความหมายไปแล้ว ",})
+
     
     elif (word and mean  != ""):
         newWord = Word(word_text = word)
