@@ -6,22 +6,22 @@ from .models import Word ,Mean
 from django.utils import timezone
 
 
-class IndexView(generic.ListView):
+class IndexView(generic.ListView):#แสดงหน้าแรก
     template_name = 'vocab/index.html'
     context_object_name = 'wordList'
     def get_queryset(self):
         return Word.objects.all()
 
-class DetailView(generic.DetailView):
+class DetailView(generic.DetailView):#แสดหน้าคำศัพท์
     model = Word
     template_name = 'vocab/detail.html'
     def get_queryset(self):
         return Word.objects.all()
 
-def addWordView(request):
+def addWordView(request):#แสดงหน้าเพิ่มคำศัพท์
     return render(request, 'vocab/addWord.html')
 
-def submit(request):
+def submit(request):#เมื่อมีการกดคำเพิ่มศัพท์จะดูว่า คัพท์ซ้ำหรือไม่ ถ้าซ้ำจะความหมายใหม่ไปเลย แต่ถ้าไม่ซ่้ำจะสร้างคำศัพท์ใหม่
     word = request.POST.get("word")
     mean = request.POST.get("mean")
     text = request.POST.get("type")
@@ -31,9 +31,8 @@ def submit(request):
     if ( (word =="")or( mean  == "") ):
         return render(request, 'vocab/addWord.html', {
             'error_message2': "ข้อมูลไม่ครบ.",})
-    elif (checkWord == True):
+    elif (checkWord):
         newWord = Word.objects.filter(word_text=word)[0]
-        print(newWord)
         newWord.mean_set.create( mean_text = mean , type_text = text)
         newWord.save()
 
@@ -48,19 +47,16 @@ def submit(request):
 
     return render(request , 'vocab/addWord.html' )
 
-def search(request):
+def search(request):#เมื่อมีการกดปุ่มค้นหาบนหน้าแรก จะดูว่ามีศัพท์ที่ตรงกับที่ค้นมั้ย ถ้าไม่มีจะแสดงคำที่มีพยัญชนะเหมือนกัน
     searchword = request.POST.get("searchBar_text")
     checkWord=Word.objects.filter(word_text=searchword).exists() 
-    print(checkWord)
     if (checkWord == False):
         if( Word.objects.filter(word_text__icontains=searchword).exists() ):
             context = {'wordList':Word.objects.filter(word_text__icontains=searchword)}
-            print(context)
             return render(request, 'vocab/index.html', context )
         else:   
             return render(request, 'vocab/index.html', {
                 'error_message1': "ไม่เจอคำศัพท์ที่ต้องการจะหา",})
     else:
-        print(context)
         context = {'word':searchword}
         return render(request ,'vocab/index.html',context)
