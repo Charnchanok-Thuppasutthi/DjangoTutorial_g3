@@ -47,7 +47,6 @@ def submit(request):#เมื่อมีการกดคำเพิ่ม�
             return render(request, 'vocab/addWord.html', {
                 'error_message1': "มีคำศัพท์นี้แล้ว และได้เพิ่มความหมายไปแล้ว ",})
 
-    
     elif (word and mean  != ""):
         newWord = Word(word_text = word)
         newWord.save()
@@ -69,3 +68,22 @@ def search(request):#เมื่อมีการกดปุ่มค้น�
     else:
         context = {'word':searchword}
         return render(request ,'vocab/index.html',context)
+
+def delete(request ,word_id):
+    delete_Word(word_id)
+    context = { }
+    return render(request , 'vocab/index.html',{ 'wordList' : Word.objects.all()})
+
+def delete_Word(del_word):   
+    word = Word.objects.all().filter(pk=del_word)        
+    word.delete()  
+
+def delete_Meaning(del_mean):     
+    if(Mean.object.filter(word_text=del_mean).exists()):         
+        mean = Word.object.filter(word_text=del_mean)         
+        mean.delete()
+
+def editPage(request , word_id):
+    word = get_object_or_404(Word,word_text=word_id)
+
+    return render(request, 'vocab/edit.html' , {'word': word ,'mean': word.mean_set.all()})

@@ -5,9 +5,9 @@
         <title>My Mean page</title>
       </head>
       <body>
-        <h1>{{word.word_text}} <a href="{% url 'vocab:edit' word.id %}" style="font-size:50%;">edit</a> </h1>
-          <p><a href="{% url 'vocab:delete' word.id %}">delete</a></p> 
-        
+
+        <h1>{{word.word_text}}  </h1>
+
         {% for mean in word.mean_set.all %}
           <h3>ความหมาย</h3>
           <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ mean }} ({{mean.type_text}})<p> 
