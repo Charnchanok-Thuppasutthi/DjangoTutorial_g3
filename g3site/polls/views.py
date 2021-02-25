@@ -49,6 +49,9 @@ class IndexView(generic.ListView):#เมื่อมีการ request path p
         return QuestionList
         #return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
 
+def menu(request):
+    return render(request, 'polls/homepage.html')
+    
 class DetailView(generic.DetailView):#เมื่อมีการ request จากการกด Question จากหน้า index.html จะทำการเปิด detail.html
     model = Question
     template_name = 'polls/detail.html'
