@@ -53,24 +53,32 @@ def vote(request, question_id):
 
 def sortingQuestion(request ):
 
-    request_type = request.GET.get("inputVoteMax")
-    request_type2 = request.GET.get("inputDateLast")
-    request_type3 = request.GET.get("inputVoteMin")
-    request_type4 = request.GET.get("inputDateFirst")
+    request_type1 = request.GET.get("Newest")
+    request_type2 = request.GET.get("Oldest")
+    request_type3 = request.GET.get("Most Votes")
+    request_type4 = request.GET.get("Least Votes")
+    request_type5 = request.GET.get("Latest Votes")
+
+    if (request_type1 == "Sort By Newest"):
+        context = {'sorted_question_list': Question.objects.all().order_by('-pub_date') }
+        return render(request , "polls/index.html" ,context)
+
+    elif (request_type2 == "Sort By Oldest"):
+        context = {'sorted_question_list': Question.objects.all().order_by('pub_date') }
+        return render(request , "polls/index.html" ,context)
     
-    if (request_type == "Sort By MaxVote"):
-            context = {'sorted_question_list': Question.objects.all().order_by('-allVote')}
-            return render(request , "polls/index.html" , context) 
-    elif (request_type3 == "Sort By MinVote"):
+    elif (request_type3 == "Sort By Most Votes"):
+        context = {'sorted_question_list': Question.objects.all().order_by('-allVote')}
+        return render(request , "polls/index.html" , context) 
+
+    elif (request_type4 == "Sort By Least Votes"):
         context = {'sorted_question_list': Question.objects.all().order_by('allVote')}
         return render(request , "polls/index.html" , context) 
 
-    elif (request_type2 == "Sort By LastVote"):
-                context = {'sorted_question_list': Question.objects.all().order_by('-lastVote') }
-                return render(request , "polls/index.html" ,context)
-    elif (request_type4 == 'Sort By FirstDate'):
-                context = {'sorted_question_list': Question.objects.all().order_by('lastVote') }
-                return render(request , "polls/index.html" ,context)
+    elif (request_type5 == 'Sort By Latest Votes'):
+        context = {'sorted_question_list': Question.objects.all().order_by('-lastVote')}
+        return render(request , "polls/index.html" , context) 
+
 
 def sortingVote(request ,question_id):
     question = get_object_or_404(Question, pk=question_id)

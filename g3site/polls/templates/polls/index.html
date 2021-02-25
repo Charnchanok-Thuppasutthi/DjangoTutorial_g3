@@ -19,11 +19,13 @@
             <p>No polls are available.</p>
         {% endif %}
         <form action="{% url 'polls:sortQ'%}" method="GET"> 
-            <input value="Sort By MaxVote" type="submit" name="inputVoteMax">
-            <input value="Sort By LastVote" type="submit" name="inputDateLast">
+            <input value="Sort By Newest" type="submit" name="Newest">
+            <input value="Sort By Oldest" type="submit" name="Oldest">
             <br>
-            <input value="Sort By MinVote" type="submit" name="inputVoteMin">
-            <input value="Sort By FirstDate" type="submit" name="inputDateFirst">
+            <input value="Sort By Most Votes" type="submit" name="Most Votes">
+            <input value="Sort By Least Votes" type="submit" name="Least Votes">
+            <br>
+            <input value="Sort By Latest Votes" type="submit" name="Latest Votes">
         </form>
       </body>
 </html>          
