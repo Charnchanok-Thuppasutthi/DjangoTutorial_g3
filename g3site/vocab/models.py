@@ -7,7 +7,6 @@ class Word(models.Model):
     def __str__(self):
         return self.word_text
 
-    
 class Mean(models.Model):
     mean_text = models.CharField(max_length=200)
     type_text = models.CharField(max_length=10)

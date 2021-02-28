@@ -5,7 +5,6 @@ from django.views import generic
 from .models import Word ,Mean
 from django.utils import timezone
 
-
 class IndexView(generic.ListView):#แสดงหน้าแรก
     template_name = 'vocab/index.html'
     context_object_name = 'wordList'
@@ -85,16 +84,19 @@ def delMean(request ,word_id ,mean_id):
     return render(request,'vocab/edit.html',{'word':selected_word , 'mean':selected_word.mean_set.all()})
 
 def resubmit(request ,word_id ):
-    word_txt = request.POST.get("word")
     selected_word = Word.objects.get(pk=word_id)
+    word_txt = request.POST.get("word")
     selected_word.word_text = word_txt
-    selected_word.save()
+    selected_word.save() 
+    print(selected_word.mean_set.all())
+    for i in selected_word.mean_set.all(): 
+        inputMean = request.POST.get(str(i.id))
+        inputType = request.POST.get(str(i.id)+"type")
         
-    mean_txt = request.POST.get("mean")
-    type_txt = request.POST.get("type")
-    print(mean_txt)
-    print(type_txt)
-    if (type_txt=="default"):
-        pass
-    else:
-        print("*")
+        if (inputType == None):
+            i.mean_text = inputMean
+        else:
+            i.mean_text = inputMean
+            i.type_text = inputType
+        i.save()
+    return render(request,'vocab/detail.html',{ 'word':selected_word , 'mean':selected_word.mean_set.all()})
