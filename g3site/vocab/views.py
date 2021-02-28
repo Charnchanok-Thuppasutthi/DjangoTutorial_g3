@@ -70,27 +70,22 @@ def search(request):#เมื่อมีการกดปุ่มค้น�
         return render(request ,'vocab/index.html',context)
 
 def delete(request ,word_id):
-    delete_Word(word_id)
+    word = Word.objects.all().filter(pk=word_id)        
+    word.delete()  
     return render(request , 'vocab/index.html',{ 'wordList' : Word.objects.all()})
 
-def delete_Word(del_word):   
-    word = Word.objects.all().filter(pk=del_word)        
-    word.delete()  
-
-def delete_Meaning(del_mean):     
-    if(Mean.object.filter(word_text=del_mean).exists()):         
-        mean = Word.object.filter(word_text=del_mean)         
-        mean.delete()
 
 def editPage(request, word_id):
-    word = get_object_or_404(Word,pk=word_id)
-    print(word)
-    return render(request, 'vocab/edit.html' , {'word': word ,'mean': word.mean_set.all()})
+    selected_word = get_object_or_404(Word,pk=word_id)
+    print(selected_word)
+    return render(request, 'vocab/edit.html' , {'word': selected_word ,'mean': selected_word.mean_set.all()})
 
-def delMean(request, mean_word):
-    print("sdasdsa")
-    mean = Word.mean_set.all().filter(mean_text=mean_word)
-    print(mean)
+def delMean(request, word_id , mean_id):
+    selected_word = Word.objects.get(pk=word_id)
+    selected_mean = selected_word.mean_set.get(pk=mean_id)
+    selected_mean.delete()
+    return render(request,'vocab/edit.html',{'word':selected_word , 'mean':selected_word.mean_set.all()})
+
 
 def resubmit(request):
     word = request.POST.get("word")

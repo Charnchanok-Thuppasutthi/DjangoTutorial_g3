@@ -10,7 +10,7 @@
           <h3>ความหมาย</h3>
 
         {% for mean in word.mean_set.all %}
-          &nbsp&nbsp&nbsp<input type="text" name="mean" value ={{mean}} ><a href="{% url 'vocab:delMean' mean %}">ลบ</a> <br>
+          &nbsp&nbsp&nbsp<input type="text" name="mean" value ={{mean}} ><a href="{% url 'vocab:delMean' word.id mean.id %}">ลบ</a> <br>
           <label>Select Type:</label> 
               <select id="wordType" name='type'>
                 <option hidden value="default">default</option>
