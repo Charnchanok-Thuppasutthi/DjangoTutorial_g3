@@ -71,7 +71,6 @@ def search(request):#เมื่อมีการกดปุ่มค้น�
 
 def delete(request ,word_id):
     delete_Word(word_id)
-    context = { }
     return render(request , 'vocab/index.html',{ 'wordList' : Word.objects.all()})
 
 def delete_Word(del_word):   
@@ -92,4 +91,10 @@ def delMean(request, mean_word):
     print("sdasdsa")
     mean = Word.mean_set.all().filter(mean_text=mean_word)
     print(mean)
-    
+
+def resubmit(request):
+    word = request.POST.get("word")
+    mean = request.POST.get("mean")
+    text = request.POST.get("type")
+    if (text=="default"):
+        pass

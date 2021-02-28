@@ -10,8 +10,21 @@
           <h3>ความหมาย</h3>
 
         {% for mean in word.mean_set.all %}
-          &nbsp&nbsp&nbsp<input type="text" name="word" value ={{mean}} ><a href="{% url 'vocab:delMean' mean.word %}">ลบ</a> <br> 
+          &nbsp&nbsp&nbsp<input type="text" name="mean" value ={{mean}} ><a href="{% url 'vocab:delMean' mean %}">ลบ</a> <br>
+          <label>Select Type:</label> 
+              <select id="wordType" name='type'>
+                <option hidden value="default">default</option>
+                <option value="Noun">Noun</option>
+                <option value="Pronoun">Pronoun</option>
+                <option value="Verb">Verb</option>
+                <option value="Adjective">Adjective</option>
+                <option value="Adverb">Adverb</option>
+                <option value="Conjunction">Conjunction</option>
+                <option value="Interjection">Interjection</option>
+              </select>
+              <br> 
         {% endfor %}
+        <input value="Store"type="submit">
       </form>
 
       </body>
