@@ -5,27 +5,27 @@
         <title>My Mean page</title>
       </head>
       <body>
-        <form action="{% url 'vocab:submit' %}" method="post">
-          <input type="text" name="word" value ={{word.word_text}} ><br>
-          <h3>ความหมาย</h3>
-
-        {% for mean in word.mean_set.all %}
-          &nbsp&nbsp&nbsp<input type="text" name="mean" value ={{mean}} ><a href="{% url 'vocab:delMean' word.id mean.id %}">ลบ</a> <br>
-          <label>Select Type:</label> 
-              <select id="wordType" name='type'>
-                <option hidden value="default">default</option>
-                <option value="Noun">Noun</option>
-                <option value="Pronoun">Pronoun</option>
-                <option value="Verb">Verb</option>
-                <option value="Adjective">Adjective</option>
-                <option value="Adverb">Adverb</option>
-                <option value="Conjunction">Conjunction</option>
-                <option value="Interjection">Interjection</option>
-              </select>
-              <br> 
-        {% endfor %}
-        <input value="Store"type="submit">
-      </form>
+        <form action="{% url 'vocab:resubmit' word.id %}" method="post">
+          {% csrf_token %}  
+            <input type="text" name="word" value ={{word.word_text}} ><br>
+              <h3>ความหมาย</h3>
+                {% for mean in word.mean_set.all %}
+                  &nbsp&nbsp&nbsp<input type="text" name="mean" value ={{mean}} ><a href="{% url 'vocab:delMean' word.id mean.id %}">ลบ</a> <br>
+                    <label>Select Type:</label> 
+                        <select id="wordType" name='type'>
+                          <option hidden value="default">default</option>
+                          <option value="Noun">Noun</option>
+                          <option value="Pronoun">Pronoun</option>
+                          <option value="Verb">Verb</option>
+                          <option value="Adjective">Adjective</option>
+                          <option value="Adverb">Adverb</option>
+                          <option value="Conjunction">Conjunction</option>
+                          <option value="Interjection">Interjection</option>
+                        </select>
+                      <br> 
+                  {% endfor %}
+              <input value="Store"type="submit">
+          </form>
 
       </body>
       <a href="{% url 'vocab:index' %}"><input type=button value="Back" ></a>

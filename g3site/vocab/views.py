@@ -74,22 +74,27 @@ def delete(request ,word_id):
     word.delete()  
     return render(request , 'vocab/index.html',{ 'wordList' : Word.objects.all()})
 
-
-def editPage(request, word_id):
+def editPage(request ,word_id):
     selected_word = get_object_or_404(Word,pk=word_id)
-    print(selected_word)
     return render(request, 'vocab/edit.html' , {'word': selected_word ,'mean': selected_word.mean_set.all()})
 
-def delMean(request, word_id , mean_id):
+def delMean(request ,word_id ,mean_id):
     selected_word = Word.objects.get(pk=word_id)
     selected_mean = selected_word.mean_set.get(pk=mean_id)
     selected_mean.delete()
     return render(request,'vocab/edit.html',{'word':selected_word , 'mean':selected_word.mean_set.all()})
 
-
-def resubmit(request):
-    word = request.POST.get("word")
-    mean = request.POST.get("mean")
-    text = request.POST.get("type")
-    if (text=="default"):
+def resubmit(request ,word_id ):
+    word_txt = request.POST.get("word")
+    selected_word = Word.objects.get(pk=word_id)
+    selected_word.word_text = word_txt
+    selected_word.save()
+        
+    mean_txt = request.POST.get("mean")
+    type_txt = request.POST.get("type")
+    print(mean_txt)
+    print(type_txt)
+    if (type_txt=="default"):
         pass
+    else:
+        print("*")

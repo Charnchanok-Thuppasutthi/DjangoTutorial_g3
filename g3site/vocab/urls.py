@@ -11,5 +11,6 @@ urlpatterns = [
     path('addWord/submit/',views.submit,name='submit'),
     path('<int:word_id>/edit/',views.editPage , name='edit'),
     path('<int:word_id>/del/', views.delete , name='delete'),
-    path('<int:word_id>/edit/delmean/<int:mean_id>',views.delMean , name='delMean'),
+    path('<int:word_id>/edit/delmean/<int:mean_id>/',views.delMean , name='delMean'),
+    path('<int:word_id>/edit/resubmit/',views.resubmit , name='resubmit'),
 ]
